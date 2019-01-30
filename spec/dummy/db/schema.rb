@@ -47,8 +47,14 @@ ActiveRecord::Schema.define(version: 20140915160601) do
     t.string 'uid',          null: false
     t.string 'secret',       null: false
     t.text 'redirect_uri', null: false
+    t.string 'scopes', null: false, default: ''
     t.datetime 'created_at'
     t.datetime 'updated_at'
+    v = Doorkeeper.const_get('VERSION')
+    v = v.const_get('STRING') if v.is_a?(Module)
+    if Gem::Version.new(v) >= Gem::Version.new('5.0.0')
+      t.boolean 'confidential', null: false, default: true
+    end
   end
 
   add_index 'oauth_applications', ['uid'], name: 'index_oauth_applications_on_uid', unique: true
