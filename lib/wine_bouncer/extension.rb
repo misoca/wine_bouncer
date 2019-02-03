@@ -17,6 +17,7 @@ module WineBouncer
       # end
     end
 
-    Grape::API.extend self
+    api_class = defined?(Grape::API::Instance) ? Grape::API::Instance : Grape::API
+    api_class.extend self
   end
 end
